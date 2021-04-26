@@ -17,6 +17,7 @@ server.listen(port, () => {
 
 io.on('connection', (socket) => {
 	console.log('A user just connected.');
+    io.emit('resetGame');
     socket.on('disconnect', () => {
         console.log('A user has disconnected.');
     });
