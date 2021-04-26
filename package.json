@@ -1,0 +1,26 @@
+{
+  "name": "onlinemultiplayer",
+  "version": "1.0.0",
+  "description": "Simple JavaScript-based web browser game",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"No tests specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JulianStone5/WebDevFinal.git"
+  },
+  "author": "Casey May and Julian Stone",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JulianStone5/WebDevFinal/issues"
+  },
+  "homepage": "https://github.com/JulianStone5/WebDevFinal#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.0.1"
+  },
+  "engines": {
+    "node" : "15.x"
+  }
+}
