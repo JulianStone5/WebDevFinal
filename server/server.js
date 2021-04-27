@@ -21,7 +21,11 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('A user has disconnected.');
     });
+
     socket.on('startGame', () => {
         io.emit('startGame');
+        socket.on('resetGame', () => {
+            io.emit('resetGame');
+        });
     });
 });
