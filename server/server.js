@@ -31,11 +31,11 @@ io.on('connection', (socket) => {
         if(player1 != 0 && player2 != 0) {
             io.sockets.to(player1.id).emit('startGame',{player_num : 1});
             io.sockets.to(player2.id).emit('startGame',{player_num : 2});
-            socket.on('resetGame', () => {
-                io.emit('resetGame');
-            });
-        }
-        
+        } 
+    });
+
+    socket.on('resetGame', () => {
+        io.emit('resetGame');
     });
 
     socket.on('disconnect', () => {
