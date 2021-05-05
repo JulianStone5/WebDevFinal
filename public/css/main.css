@@ -2,6 +2,7 @@ td {
     border: 2px solid;
     height: 100px;
     width: 100px;
+    background-color: white;
 }
 html {
   background: url(../assets/Background.png) no-repeat center center fixed;
@@ -13,6 +14,7 @@ html {
 
 table {
     border-collapse: collapse;
+
 }
 
 button{
