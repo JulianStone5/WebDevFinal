@@ -7,15 +7,16 @@
     </head>
 
     <body>
-        <h3 id="playerHeader" class="hdr-player">whatup</h3>
-        <h3 id="turnHeader" class="hdr-turn">too early lol</h3>
+        <h2 id="playerHeader" class="hdr-player">Welcome to Tic-Tac-Toe</h2>
+        <h3 id="countHeader" class="hdr-count">No players are connected</h3>
+        <h3 id="turnHeader" class="hdr-turn">Game Not Started</h3>
 
         <button type="button" id="startButton" class="btn-start btn btn-lg">Start</button>
         <button type="button" id="resetButton" class="btn-reset btn btn-lg">Reset</button>
 
         <table id="board" class="brd"></table>
 
-        <h3 id="winnerHeader" class="hdr-winner">too early lol</h3>
+        <h3 id="winnerHeader" class="hdr-winner">No Winner</h3>
 
         <script src="/socket.io/socket.io.js"></script>
         <script src="/js/app.js" charset="utf-8"></script>

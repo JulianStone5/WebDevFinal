@@ -16,41 +16,59 @@ server.listen(port, () => {
 });
 
 var player1 = 0, player2 = 0;
+var waitlist = [];
 var board = [[0,0,0],[0,0,0],[0,0,0]];
-var gameOverFlag = false;
-var player_turn = 1;
+var gameOverFlag = false, gameStartedFlag = false;
+var playerTurn = 1;
 
 io.on('connection', (socket) => {
 	console.log('A user just connected.');
-    if(player1 == 0) {
-        player1 = socket;
-    } else if(player2 == 0) {
-        player2 = socket;
+    waitlist.push(socket);
+    if(gameStartedFlag) {
+        io.sockets.to(socket.id).emit('catchUp', {state : board, player_num : 0, player_turn : playerTurn});
     } else {
-        console.log("rip");
+        updatePreGame();
+        // waitlist.forEach((s) => {
+        //     let canStart = true;
+        //     if(waitlist.length < 2) {
+        //         canStart = false;
+        //     } else if(s != waitlist[0] && s != waitlist[1]) {
+        //         canStart = false;
+        //     }
+        //     io.sockets.to(s.id).emit('updatePlayerCount',{player_count : waitlist.length, can_start : canStart});
+        // });
     }
 
     socket.on('startGame', () => {
-        if(player1 != 0 && player2 != 0) {
-            io.sockets.to(player1.id).emit('startGame',{player_num : 1});
-            io.sockets.to(player2.id).emit('startGame',{player_num : 2});
+        if(waitlist.length >= 2) {
+            gameStartedFlag = true;
+            player1 = waitlist.shift();
+            player2 = waitlist.shift();
+            io.sockets.to(player1.id).emit('startGame',{player_num : 1, player_turn : playerTurn});
+            io.sockets.to(player2.id).emit('startGame',{player_num : 2, player_turn : playerTurn});
+            waitlist.forEach(s => io.sockets.to(s.id).emit('startGame', {player_num : 0, player_turn : playerTurn}));
         }
     });
 
     socket.on('resetGame', () => {
         board = [[0,0,0],[0,0,0],[0,0,0]];
         gameOverFlag = false;
-        player_turn = 1;
-        io.emit('resetGame');
+        gameStartedFlag = false;
+        playerTurn = 1;
+        waitlist.push(player1);
+        waitlist.push(player2);
+        player1 = 0, player2 = 0;
+        io.emit('resetGame',{player_count : waitlist.length});
+        updatePreGame();
     });
 
     socket.on('spotChosen', (data) => {
         let row = data["row"];
         let col = data["col"];
-        if(player_turn == data["player_num"] && board[row][col] == 0 && !gameOverFlag) {
+        if(playerTurn == data["player_num"] && board[row][col] == 0 && !gameOverFlag) {
             board[row][col] = data["player_num"];
-            player_turn = -1 * player_turn + 3;
-            data["player_turn"] = player_turn;
+            playerTurn = -1 * playerTurn + 3;
+            data["player_turn"] = playerTurn;
             io.emit('spotChosen', data);
             gameOverFlag = isGameOver(data);
             if(gameOverFlag) {
@@ -65,17 +83,30 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         console.log('A user has disconnected.');
-        io.emit('resetGame');
-        board = [[0,0,0],[0,0,0],[0,0,0]];
-        gameOverFlag = false;
-        player_turn = 1;
-        if(socket.id == player1.id) {
-            player1 = 0;
-        } else if(socket.id == player2.id) {
-            player2 = 0;
+        if(socket == player1 || socket == player2) {
+            io.emit('resetGame',{player_count : waitlist.length});
+            board = [[0,0,0],[0,0,0],[0,0,0]];
+            gameOverFlag = false;
+            gameStartedFlag = false;
+            playerTurn = 1;
+            waitlist.unshift(player1,player2);
         }
+        waitlist.splice(waitlist.indexOf(socket),1);
+        updatePreGame();
     });
 });
+
+function updatePreGame() {
+    waitlist.forEach((s) => {
+        let canStart = true;
+        if(waitlist.length < 2) {
+            canStart = false;
+        } else if(s != waitlist[0] && s != waitlist[1]) {
+            canStart = false;
+        }
+        io.sockets.to(s.id).emit('updatePlayerCount',{player_count : waitlist.length, can_start : canStart});
+    });
+}
 
 function isGameOver(data) {
     let row = data["row"];
