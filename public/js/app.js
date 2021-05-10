@@ -98,7 +98,7 @@ function clearBoard() {
             img.src = '/../assets/BlankSquare.png';
             cell.append(img);
             img.addEventListener('click', () => {
-                socket.emit('spotChosen', {player_num: pn, 
+                socket.emit('spotChosen', {player_num: pn,
                                            row: cell.parentNode.rowIndex,
                                            col: cell.cellIndex});
             });
@@ -118,12 +118,14 @@ function fillBoard(data) {
                 img.src = '/../assets/BlankSquare.png';
             } else if(b[i][j] == 1) {
                 img.src = '/../assets/X.png';
+                cell.style.cursor = "default";
             } else {
                 img.src = '/../assets/O.png';
+                cell.style.cursor = "default";
             }
             cell.append(img);
             img.addEventListener('click', () => {
-                socket.emit('spotChosen', {player_num: pn, 
+                socket.emit('spotChosen', {player_num: pn,
                                            row: cell.parentNode.rowIndex,
                                            col: cell.cellIndex});
             });
@@ -139,6 +141,7 @@ function fillSpot(data) {
     } else {
         cell.childNodes[0].src = '/../assets/O.png';
     }
+    cell.style.cursor = "default";
     turnHdr.innerHTML = "It is Player " + data["player_turn"] + "'s turn";
 }
 
