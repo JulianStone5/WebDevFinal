@@ -1,3 +1,39 @@
+* {
+  font-family:fantasy;
+}
+
+html {
+  background: url(../assets/Background.png) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+h2 {
+  text-align: center;
+  font-size: 50px
+}
+
+h3 {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 25px;
+  width: 300px;
+  font-family: calibri;
+  font-size: 30px;
+  border: 3px solid #008CBA;
+  text-align: center;
+  line-height: 50px;
+}
+
+table {
+  border-collapse: collapse;
+  position: relative;
+  margin: auto;
+
+}
+
 td {
     border: 2px solid;
     height: 100px;
@@ -7,19 +43,10 @@ td {
     margin: auto;
     cursor:pointer;
 }
-html {
-  background: url(../assets/Background.png) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
 
-table {
-    border-collapse: collapse;
-    position: relative;
-    margin: auto;
-
+img {
+  height: 100px;
+  width: 100px;
 }
 
 button{
@@ -31,6 +58,7 @@ button{
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  font-family:arial;
   position: absolute;
   left: 10px;
   top: 10px;
@@ -42,26 +70,4 @@ button{
   top: 0px;
   position: relative;
   margin: auto;
-}
-
-h3 {
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 25px;
-  width: 300px;
-  font-family: arial;
-  font-size: 30px;
-  border: 3px solid #008CBA;
-  text-align: center;
-  line-height: 50px;
-}
-
-h2 {
-  text-align: center;
-  font-size: 50px
-}
-
-img {
-    height: 100px;
-    width: 100px;
 }
