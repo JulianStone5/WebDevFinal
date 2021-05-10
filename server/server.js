@@ -28,15 +28,6 @@ io.on('connection', (socket) => {
         io.sockets.to(socket.id).emit('catchUp', {state : board, player_num : 0, player_turn : playerTurn});
     } else {
         updatePreGame();
-        // waitlist.forEach((s) => {
-        //     let canStart = true;
-        //     if(waitlist.length < 2) {
-        //         canStart = false;
-        //     } else if(s != waitlist[0] && s != waitlist[1]) {
-        //         canStart = false;
-        //     }
-        //     io.sockets.to(s.id).emit('updatePlayerCount',{player_count : waitlist.length, can_start : canStart});
-        // });
     }
 
     socket.on('startGame', () => {
@@ -90,6 +81,7 @@ io.on('connection', (socket) => {
             gameStartedFlag = false;
             playerTurn = 1;
             waitlist.unshift(player1,player2);
+            player1 = 0, player2 = 0;
         }
         waitlist.splice(waitlist.indexOf(socket),1);
         updatePreGame();
